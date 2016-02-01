@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AIWolfClient"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AIWolfCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AIWolfServer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AndoAgent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CanvasAgent0.0.2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ChipAgent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gaugau"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/IPAwolf"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/kainoueAgent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MyAgent"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/noppo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Noriplayer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/pingwo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SatsukiJinro"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TakataAgent_ver025"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Udon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wasabi"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/yanagimati"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
