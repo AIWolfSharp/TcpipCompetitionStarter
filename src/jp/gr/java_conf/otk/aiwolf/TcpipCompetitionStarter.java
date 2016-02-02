@@ -81,6 +81,9 @@ public class TcpipCompetitionStarter {
 		ArrayList<Role> roleList = manager.getRoleList();
 		// System.out.println(roleList);
 
+		GameSetting gameSetting = GameSetting.getDefaultGame(getPlayerNum());
+		TcpipServer gameServer = new TcpipServer(port, getPlayerNum(), gameSetting);
+
 		// game
 		for (int i = 0; i < gameNum; i++) {
 			// roleListをシャッフル(役職を変えるため) NOTE:ランダムじゃなくて、各エージェントが同じ回数役職をやるように操作したほうがいい？
@@ -91,9 +94,6 @@ public class TcpipCompetitionStarter {
 				playerMap.put((Player) playerClasses.get(j).newInstance(), roleList.get(j));
 				classMap.put(playerClasses.get(j), roleList.get(j));
 			}
-
-			GameSetting gameSetting = GameSetting.getDefaultGame(getPlayerNum());
-			TcpipServer gameServer = new TcpipServer(port, getPlayerNum(), gameSetting);
 
 			Runnable r = new Runnable() {
 				@Override
