@@ -84,38 +84,37 @@ public class TcpipCompetitionStarter {
 		GameSetting gameSetting = GameSetting.getDefaultGame(getPlayerNum());
 		TcpipServer gameServer = new TcpipServer(port, getPlayerNum(), gameSetting);
 
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					gameServer.waitForConnection();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+
+		Thread t = new Thread(r);
+		t.start();
+
+		ArrayList<TcpipClient> clientList = new ArrayList<TcpipClient>();
+		for (int i = 0; i < playerClasses.size(); i++) {
+			clientList.add(new TcpipClient("localhost", port, null));
+			clientList.get(i).connect((Player) playerClasses.get(i).newInstance());
+		}
+
+		t.join();
+
 		// game
 		for (int i = 0; i < gameNum; i++) {
 			// roleListをシャッフル(役職を変えるため) NOTE:ランダムじゃなくて、各エージェントが同じ回数役職をやるように操作したほうがいい？
 			Collections.shuffle(roleList);
-			Map<Player, Role> playerMap = new HashMap<Player, Role>();
 			Map<Class, Role> classMap = new HashMap<Class, Role>();
 			for (int j = 0; j < playerClasses.size(); j++) {
-				playerMap.put((Player) playerClasses.get(j).newInstance(), roleList.get(j));
+				clientList.get(j).setRequestRole(roleList.get(j));
 				classMap.put(playerClasses.get(j), roleList.get(j));
 			}
-
-			Runnable r = new Runnable() {
-				@Override
-				public void run() {
-					try {
-						gameServer.waitForConnection();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			};
-
-			Thread t = new Thread(r);
-			t.start();
-
-			TcpipClient client;
-			for (Map.Entry<Class, Role> entry : classMap.entrySet()) {
-				client = new TcpipClient("localhost", port, entry.getValue());
-				client.connect((Player) entry.getKey().newInstance());
-			}
-
-			t.join();
 
 			AIWolfGame game = new AIWolfGame(gameSetting, gameServer);
 			game.setShowConsoleLog(isShowConsoleLog);
@@ -130,7 +129,6 @@ public class TcpipCompetitionStarter {
 			}
 			game.setRand(new Random(gameSetting.getRandomSeed()));
 			game.start();
-			gameServer.close();
 
 			// 勝敗結果格納
 			for (Map.Entry<Class, Role> entry : classMap.entrySet()) {
@@ -140,6 +138,8 @@ public class TcpipCompetitionStarter {
 			}
 
 		}
+		gameServer.close();
+
 		// 結果処理
 		calcResult();
 
@@ -276,18 +276,18 @@ public class TcpipCompetitionStarter {
 		// starter.addClass(Class.forName("jp.halfmoon.inaba.aiwolf.strategyplayer.StrategyPlayer"), "饂飩");
 		// starter.addClass(Class.forName("org.aiwolf.kajiClient.LearningPlayer.KajiRoleAssignPlayer"));
 		starter.addClass(Class.forName("com.gmail.jinro.noppo.players.RoleAssignPlayer"), "働きの悪");
-		starter.addClass(Class.forName("org.aiwolf.Satsuki.LearningPlayer.AIWolfMain"), "Satuki");
+		// starter.addClass(Class.forName("org.aiwolf.Satsuki.LearningPlayer.AIWolfMain"), "Satuki");
 		starter.addClass(Class.forName("jp.ac.shibaura_it.ma15082.WasabiPlayer"), "Wasabi");
-		starter.addClass(Class.forName("takata.player.TakataRoleAssignPlayer"), "GofukuLab");
-		starter.addClass(Class.forName("ipa.myAgent.IPARoleAssignPlayer"));
+		// starter.addClass(Class.forName("takata.player.TakataRoleAssignPlayer"), "GofukuLab");
+		// starter.addClass(Class.forName("ipa.myAgent.IPARoleAssignPlayer"));
 		starter.addClass(Class.forName("org.aiwolf.iace10442.ChipRoleAssignPlayer"), "iace10442");
 		starter.addClass(Class.forName("kainoueAgent.MyRoleAssignPlayer"), "swingby"); // swingby
 		starter.addClass(Class.forName("jp.ac.aitech.k13009kk.aiwolf.client.player.AndoRoleAssignPlayer")); // itolab //ログ出力
 		starter.addClass(Class.forName("com.github.haretaro.pingwo.role.PingwoRoleAssignPlayer"), "平兀");
 		starter.addClass(Class.forName("com.gmail.the.seventh.layers.RoleAssignPlayer"), "Fenrir");
-		starter.addClass(Class.forName("jp.ac.cu.hiroshima.info.cm.nakamura.player.NoriRoleAssignPlayer"), "中村人");
-		starter.addClass(Class.forName("com.gmail.octobersky.MyRoleAssignPlayer")); // 昼休みはいつも人狼でつぶれる
-		starter.addClass(Class.forName("com.canvassoft.Agent.CanvasRoleAssignPlayer")); // CanvasSoft //ログ
+		// starter.addClass(Class.forName("jp.ac.cu.hiroshima.info.cm.nakamura.player.NoriRoleAssignPlayer"), "中村人");
+		// starter.addClass(Class.forName("com.gmail.octobersky.MyRoleAssignPlayer")); // 昼休みはいつも人狼でつぶれる
+		// starter.addClass(Class.forName("com.canvassoft.Agent.CanvasRoleAssignPlayer")); // CanvasSoft //ログ
 
 		System.out.println(starter.getPlayerNum() + "人");
 		// コンソールログを表示しない,ゲームログを保存する
