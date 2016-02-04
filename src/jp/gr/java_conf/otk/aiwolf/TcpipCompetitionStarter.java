@@ -227,6 +227,7 @@ public class TcpipCompetitionStarter {
 		int playerNum = 15;
 		int gameNum = 1000;
 		int port = 10000;
+		boolean useInternal = true; // ハードコーディングしたプレイヤーを使うかどうか
 
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].startsWith("-")) {
@@ -239,6 +240,8 @@ public class TcpipCompetitionStarter {
 				} else if (args[i].equals("-p")) {
 					i++;
 					port = Integer.parseInt(args[i]);
+				} else if (args[i].equals("-e")) {
+					useInternal = false;
 				}
 			}
 		}
@@ -248,23 +251,25 @@ public class TcpipCompetitionStarter {
 
 		TcpipCompetitionStarter starter = new TcpipCompetitionStarter(playerNum, gameNum, port);
 
-		playerList.add(Class.forName("org.aiwolf.client.base.smpl.SampleRoleAssignPlayer"));
-		// playerList.add(Class.forName("com.yy.player.YYRoleAssignPlayer"));
-		// playerList.add(Class.forName("jp.halfmoon.inaba.aiwolf.strategyplayer.StrategyPlayer"));
-		// playerList.add(Class.forName("org.aiwolf.kajiClient.LearningPlayer.KajiRoleAssignPlayer"));
-		playerList.add(Class.forName("com.gmail.jinro.noppo.players.RoleAssignPlayer"));
-		// playerList.add(Class.forName("org.aiwolf.Satsuki.LearningPlayer.AIWolfMain"));
-		playerList.add(Class.forName("jp.ac.shibaura_it.ma15082.WasabiPlayer"));
-		// playerList.add(Class.forName("takata.player.TakataRoleAssignPlayer"));
-		// playerList.add(Class.forName("ipa.myAgent.IPARoleAssignPlayer"));
-		playerList.add(Class.forName("org.aiwolf.iace10442.ChipRoleAssignPlayer"));
-		playerList.add(Class.forName("kainoueAgent.MyRoleAssignPlayer"));
-		// playerList.add(Class.forName("jp.ac.aitech.k13009kk.aiwolf.client.player.AndoRoleAssignPlayer"));
-		playerList.add(Class.forName("com.github.haretaro.pingwo.role.PingwoRoleAssignPlayer"));
-		playerList.add(Class.forName("com.gmail.the.seventh.layers.RoleAssignPlayer"));
-		// playerList.add(Class.forName("jp.ac.cu.hiroshima.info.cm.nakamura.player.NoriRoleAssignPlayer"));
-		// playerList.add(Class.forName("com.gmail.octobersky.MyRoleAssignPlayer"));
-		// playerList.add(Class.forName("com.canvassoft.Agent.CanvasRoleAssignPlayer"));
+		if (useInternal) {
+			playerList.add(Class.forName("org.aiwolf.client.base.smpl.SampleRoleAssignPlayer"));
+			// playerList.add(Class.forName("com.yy.player.YYRoleAssignPlayer"));
+			// playerList.add(Class.forName("jp.halfmoon.inaba.aiwolf.strategyplayer.StrategyPlayer"));
+			// playerList.add(Class.forName("org.aiwolf.kajiClient.LearningPlayer.KajiRoleAssignPlayer"));
+			playerList.add(Class.forName("com.gmail.jinro.noppo.players.RoleAssignPlayer"));
+			// playerList.add(Class.forName("org.aiwolf.Satsuki.LearningPlayer.AIWolfMain"));
+			playerList.add(Class.forName("jp.ac.shibaura_it.ma15082.WasabiPlayer"));
+			// playerList.add(Class.forName("takata.player.TakataRoleAssignPlayer"));
+			// playerList.add(Class.forName("ipa.myAgent.IPARoleAssignPlayer"));
+			playerList.add(Class.forName("org.aiwolf.iace10442.ChipRoleAssignPlayer"));
+			playerList.add(Class.forName("kainoueAgent.MyRoleAssignPlayer"));
+			// playerList.add(Class.forName("jp.ac.aitech.k13009kk.aiwolf.client.player.AndoRoleAssignPlayer"));
+			playerList.add(Class.forName("com.github.haretaro.pingwo.role.PingwoRoleAssignPlayer"));
+			playerList.add(Class.forName("com.gmail.the.seventh.layers.RoleAssignPlayer"));
+			// playerList.add(Class.forName("jp.ac.cu.hiroshima.info.cm.nakamura.player.NoriRoleAssignPlayer"));
+			// playerList.add(Class.forName("com.gmail.octobersky.MyRoleAssignPlayer"));
+			// playerList.add(Class.forName("com.canvassoft.Agent.CanvasRoleAssignPlayer"));
+		}
 
 		starter.gameStart(false, true);
 		starter.printwinLoseCounterMap();
